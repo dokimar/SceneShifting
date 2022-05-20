@@ -11,6 +11,7 @@ class Overworld extends Phaser.Scene {
         this.VELOCITY = 150;
         this.ROOMWIDTH = 512;
         this.ROOMHEIGHT = 336;
+        this.currentRoom = {x: 1, y: 1};
 
         // Set background color
         this.cameras.main.setBackgroundColor('#666');
@@ -53,14 +54,49 @@ class Overworld extends Phaser.Scene {
 
         this.physics.world.on('worldbounds', (body, blockedUp, blockedDown, blockedLeft, blockedRight) => {
             if (blockedUp) {
+                this.cameras.main.flash(250);
+                this.cameras.main.shake(250);
                 this.cameras.main.pan(
                     this.ROOMWIDTH*1.5,
                     this.ROOMHEIGHT*0.5,
-                    3000,
-                    'Linear'
+                    1750,
+                    'Cubic.easeOut'
                 );
-                this.physics.world.setBounds(this.ROOMWIDTH-this.player.displayWidth/2, 0, 
-                    this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+                this.physics.world.setBounds(this.ROOMWIDTH-this.player.displayWidth/2, 0, this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+
+            }
+            if (blockedDown) {
+                this.cameras.main.flash(250);
+                this.cameras.main.shake(250);
+                this.cameras.main.pan(
+                    this.ROOMWIDTH*1.5,
+                    this.ROOMHEIGHT*1.5,
+                    1750,
+                    'Cubic.easeOut'
+                );
+                this.physics.world.setBounds(this.ROOMWIDTH-this.player.displayWidth/2, this.ROOMHEIGHT-this.player.displayHeight/2, this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+            }
+            if (blockedLeft) {
+                this.cameras.main.flash(250);
+                this.cameras.main.shake(250);
+                this.cameras.main.pan(
+                    this.ROOMWIDTH*0.5,
+                    this.ROOMHEIGHT*1.5,
+                    1750,
+                    'Cubic.easeOut'
+                );
+                this.physics.world.setBounds(0, this.ROOMHEIGHT-this.player.displayHeight/2, this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+            }
+            if (blockedRight) {
+                this.cameras.main.flash(250);
+                this.cameras.main.shake(250);
+                this.cameras.main.pan(
+                    this.ROOMWIDTH*2.5,
+                    this.ROOMHEIGHT*1.5,
+                    1750,
+                    'Cubic.easeOut'
+                );
+                this.physics.world.setBounds((this.ROOMWIDTH * 2)-this.player.displayWidth/2, this.ROOMHEIGHT-this.player.displayHeight/2, this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
             }
         });
 
